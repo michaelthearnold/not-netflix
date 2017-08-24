@@ -6,10 +6,24 @@ import Movie from './Movie'
 
 
 class App extends Component {
+  //Initial state of the component. Kept in its own function to allow easy wiping of state
+  //with this.setState(this.getInitialState())
   getInitialState() {
     return {
       recommendations: [],
       myList: []
+    }
+  }
+
+
+  //CSS styles to be applied to component. Kept in the code so that it can change based on state,
+  //props, or imported files. Should be called through render, or functions called by render
+  //so that any state dependent CSS is updated when state changes.
+  getStyle() {
+    return {
+      center: {
+        textAlign: "center"
+      }
     }
   }
 
@@ -49,7 +63,7 @@ class App extends Component {
     dest.push(source[index])
     source.splice(index, 1)
 
-    //create new state to be updated, and map it to local state copies
+    //create new state to be updated, and map it to local state
     var state = {}
     state[sourceProp] = source
     state[destProp] = dest
@@ -58,13 +72,18 @@ class App extends Component {
 
 
   getMyListMovies() {
+    //don't display anything if there's no movies in myList
+    if(this.state.myList.length <= 0)
+      return null
+
+    //generate list of movies to be displayed
     var movies = this.state.myList.map(movie => {
       return (
         <Movie title={movie.title}
           img={movie.img}
           key={movie.id}>
 
-          {/* child to be displayed in popup on hover */}
+          {/* child to be displayed in popover on hover */}
           <Bs.Button bsStyle={"danger"} 
             onClick={this.moveBetweenLists.bind(this, movie, "myList", "recommendations")}>
 
@@ -75,54 +94,73 @@ class App extends Component {
     })
 
     return (
-      <Bs.Row>
-        {movies}
-      </Bs.Row>
+      <div>
+        <h1>MyList</h1>
+        <Bs.Row>
+          {movies}
+        </Bs.Row>
+      </div>
     )
   }
 
 
   getRecommendedMovies() {
+    //don't display anything if there's no movies in recommendations
+    if(this.state.recommendations.length <= 0)
+      return null
+
     var movies = this.state.recommendations.map(movie => {
       return (
         <Movie title={movie.title}
           img={movie.img}
           key={movie.id}>
 
-          {/* child to be displayed in popup on hover */}
+          {/* child to be displayed in popover on hover */}
           <Bs.Button bsStyle={"success"}
             onClick={this.moveBetweenLists.bind(this, movie, "recommendations", "myList")}>
 
-            Add
+            Add to List
           </Bs.Button>
         </Movie>
       )
     })
 
     return (
-      <Bs.Row>
-        {movies}
-      </Bs.Row>
+       <div>
+        <h1>Recommendations</h1>
+        <Bs.Row>
+          {movies}
+        </Bs.Row>
+      </div>
     )
   }
 
 
-  getStyle() {
-    return {
-      center: {
-        textAlign: "center"
-      }
-    }
+  getMyListText() {
+    //don't display anything if mylist is empty
+    if(this.state.myList.length <= 0)
+      return null
+
+    //concatinate titles separated by commas
+    var text = this.state.myList.map(movie => movie.title)
+    text = text.join(", ")
+
+    return (
+      <div>
+        <h3>My List</h3>
+        <h5>{text}</h5>
+      </div>
+    )
   }
 
 
   render() {
     var style = this.getStyle()
     return (
-      <div>
+      <div style={style.center}>
         {/* Header */}
-        <h1 style={style.center}>Not Netflix</h1>
-        <h3 style={style.center}>All 6 of your favorite movies in one place.</h3>
+        <h1>Not Netflix</h1>
+        <h3>All 6 of your favorite movies in one place.</h3>
 
         {/* MyList Movies */}
         {this.getMyListMovies()}
@@ -131,6 +169,7 @@ class App extends Component {
         {this.getRecommendedMovies()}
 
         {/* MyList text */}
+        {this.getMyListText()}
 
       </div>
     )
