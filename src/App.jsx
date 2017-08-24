@@ -191,7 +191,6 @@ class App extends Component {
 
         {/* MyList text */}
         {this.getMyListText()}
-
       </div>
     )
   }
