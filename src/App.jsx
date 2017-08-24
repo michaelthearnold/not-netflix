@@ -21,8 +21,25 @@ class App extends Component {
   //so that any state dependent CSS is updated when state changes.
   getStyle() {
     return {
-      center: {
-        textAlign: "center"
+      container: {
+        textAlign: "center",
+        color: "#fdfefe",
+        backgroundColor: "#141414"
+      },
+      movieContainer: {
+        display: "block",
+        whiteSpace: "nowrap",
+        overflow: "auto",
+        overflowY: "hidden",
+        maxHeight: 233,
+        width: "100%"
+      },
+      header: {
+        fontSize: 80,
+        color: "#df1718"
+      },
+      subHeader: {
+        padding: "0px 0px 20px 0px"
       }
     }
   }
@@ -72,6 +89,8 @@ class App extends Component {
 
 
   getMyListMovies() {
+    var style = this.getStyle()
+
     //don't display anything if there's no movies in myList
     if(this.state.myList.length <= 0)
       return null
@@ -95,16 +114,18 @@ class App extends Component {
 
     return (
       <div>
-        <h1>MyList</h1>
-        <Bs.Row>
+        <h1>My List</h1>
+        <div style={style.movieContainer}>
           {movies}
-        </Bs.Row>
+        </div>
       </div>
     )
   }
 
 
   getRecommendedMovies() {
+    var style = this.getStyle()
+
     //don't display anything if there's no movies in recommendations
     if(this.state.recommendations.length <= 0)
       return null
@@ -128,9 +149,9 @@ class App extends Component {
     return (
        <div>
         <h1>Recommendations</h1>
-        <Bs.Row>
+        <div style={style.movieContainer}>
           {movies}
-        </Bs.Row>
+        </div>
       </div>
     )
   }
@@ -147,8 +168,8 @@ class App extends Component {
 
     return (
       <div>
-        <h3>My List</h3>
-        <h5>{text}</h5>
+        <h1>My List</h1>
+        <h4>{text}</h4>
       </div>
     )
   }
@@ -157,10 +178,10 @@ class App extends Component {
   render() {
     var style = this.getStyle()
     return (
-      <div style={style.center}>
+      <div style={style.container}>
         {/* Header */}
-        <h1>Not Netflix</h1>
-        <h3>All 6 of your favorite movies in one place.</h3>
+        <h1 style={style.header}>Not Netflix</h1>
+        <h4 style={style.subHeader}>All 6 of your favorite movies in one place.</h4>
 
         {/* MyList Movies */}
         {this.getMyListMovies()}
