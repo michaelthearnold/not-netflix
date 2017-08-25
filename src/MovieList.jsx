@@ -45,7 +45,7 @@ class MovieList extends Component {
           {/* child to be displayed in popover on hover */}
           <Bs.Button bsStyle={this.props.buttonStyle}
             style={style.button}
-            onClick={() => this.props.onClick(movie)}>
+            onClick={this.props.onClick.bind(this, movie)}>
 
             {this.props.buttonText}
           </Bs.Button>
