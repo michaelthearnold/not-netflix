@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import * as Bs from 'react-bootstrap'
 
 
 //Generic movie component to be used for myList and recommendations.
@@ -7,8 +6,13 @@ import * as Bs from 'react-bootstrap'
 //Its children will be displayed below the movie image as a popover on hover.
 class Popover extends Component {
   getStyle() {
+    //compute css properties
+    var transition = "opacity .2s linear"
+    var opacity = this.props.show ? 1 : 0
+    
     return {
       container: {
+        ...this.props.style,
         position: 'absolute',
         backgroundColor: "white",
         padding: "4px 10px",
@@ -16,7 +20,16 @@ class Popover extends Component {
         border: '1px solid #CCC',
         borderTop: "none",
         boxShadow: '0 5px 10px rgba(0, 0, 0, 0.4)',
-        ...this.props.style
+
+        WebkitOpacity: opacity,
+        MozOpacity: opacity,
+        opacity: opacity,
+
+        WebkitTransition: transition,
+        MozTransition: transition,
+        MsTransition: transition,
+        OTransition: transition,
+        transition: transition
       }
     }
   }

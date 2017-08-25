@@ -29,7 +29,7 @@ class Movie extends Component {
   }
 
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = this.getInitialState()
   }
@@ -57,12 +57,13 @@ class Movie extends Component {
           style={style.img}
           alt={this.props.title}/>
 
-        <Bs.Overlay show={this.state.showOverlay}
+        <Bs.Overlay show={this.state.showOverlay}          
           placement="bottom"
           target={() => ReactDOM.findDOMNode(this.refs.container)}>
           
           <Popover onMouseLeave={this.onMouseLeave.bind(this)}
-            onMouseEnter={this.onMouseEnter.bind(this)}>
+            onMouseEnter={this.onMouseEnter.bind(this)}
+            show={this.state.showOverlay}>
             {this.props.children}
           </Popover>
         </Bs.Overlay>
