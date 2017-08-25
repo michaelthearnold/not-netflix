@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from "react-dom"
 import * as Bs from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.css'
 
 
 //Generic movie component to be used for myList and recommendations.
