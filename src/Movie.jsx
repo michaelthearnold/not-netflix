@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import ReactDOM from "react-dom"
-import * as Bs from 'react-bootstrap'
 import Popover from './Popover'
 
 
@@ -35,8 +33,7 @@ class Movie extends Component {
   }
   
 
-  //we need to tap into the mouse enter/leave to prevent the popover
-  //from hiding when it is moused over
+  //we need to tap into the mouse enter/leave to present the popover at the right time
   onMouseEnter() {
     this.setState({showOverlay: true})
   }
@@ -47,26 +44,23 @@ class Movie extends Component {
 
   render() {
     var style = this.getStyle()
+    //Note: the mouse handlers are used on the img/popover instead of the container
+    //so that when a movie is removed, the onEnter handlers will be triggered as
+    //the mouse moves between the popover and img
     return (
-      <div style={style.container} 
-        onMouseEnter={this.onMouseEnter.bind(this)}
-        onMouseLeave={this.onMouseLeave.bind(this)}
-        ref="container">
+      <div style={style.container}>
 
         <img src={this.props.img} 
           style={style.img}
-          alt={this.props.title}/>
-
-        <Bs.Overlay show={this.state.showOverlay}          
-          placement="bottom"
-          target={() => ReactDOM.findDOMNode(this.refs.container)}>
+          alt={this.props.title}
+          onMouseEnter={this.onMouseEnter.bind(this)}
+          onMouseLeave={this.onMouseLeave.bind(this)}/>
           
-          <Popover onMouseLeave={this.onMouseLeave.bind(this)}
-            onMouseEnter={this.onMouseEnter.bind(this)}
-            show={this.state.showOverlay}>
-            {this.props.children}
-          </Popover>
-        </Bs.Overlay>
+        <Popover show={this.state.showOverlay}
+          onMouseEnter={this.onMouseEnter.bind(this)}
+          onMouseLeave={this.onMouseLeave.bind(this)}>
+          {this.props.children}
+        </Popover>
       </div>
     )
   }
