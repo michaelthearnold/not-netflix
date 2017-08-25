@@ -40,8 +40,9 @@ class App extends Component {
       subHeader: {
         padding: "0px 0px 20px 0px"
       },
-      maxWidth: {
-        width: "100%"
+      movieButton: {
+        width: "100%",
+        borderRadius: "0px 0px 4px 4px"
       }
     }
   }
@@ -106,7 +107,7 @@ class App extends Component {
 
           {/* child to be displayed in popover on hover */}
           <Bs.Button bsStyle={"danger"}
-            style={style.maxWidth}
+            style={style.movieButton}
             onClick={this.moveBetweenLists.bind(this, movie, "myList", "recommendations")}>
 
             Remove
@@ -141,7 +142,7 @@ class App extends Component {
 
           {/* child to be displayed in popover on hover */}
           <Bs.Button bsStyle={"success"}
-            style={style.maxWidth}
+            style={style.movieButton}
             onClick={this.moveBetweenLists.bind(this, movie, "recommendations", "myList")}>
 
             Add to List
