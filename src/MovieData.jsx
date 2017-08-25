@@ -3,35 +3,35 @@ var MovieData = {
     { 
       title: 'Futurama', 
       id: 1, 
-      img: 'http://cdn1.nflximg.net/webp/7621/3787621.webp' 
+      img: '/Movies/Futurama.jpg' 
     }, 
     {  
       title: 'The Interview', 
       id: 2, 
-      img: 'http://cdn1.nflximg.net/webp/1381/11971381.webp' 
+      img: '/Movies/TheInterview.jpg' 
     }, 
     { 
       title: 'Gilmore Girls', 
       id: 3, 
-      img: 'http://cdn1.nflximg.net/webp/7451/11317451.webp' 
+      img: '/Movies/GilmoreGirls.jpg' 
     } 
   ], 
   recommendations: [ 
     { 
       title: 'Family Guy', 
       id: 4, 
-      img: 'http://cdn5.nflximg.net/webp/5815/2515815.webp' 
+      img: '/Movies/FamilyGuy.jpg' 
     },
      
     { 
       title: 'The Croods', 
       id: 5, 
-      img: 'http://cdn3.nflximg.net/webp/2353/3862353.webp' 
+      img: '/Movies/TheCroods.jpg' 
     }, 
     { 
       title: 'Friends', 
       id: 6, 
-      img: 'http://cdn0.nflximg.net/webp/3200/9163200.webp' 
+      img: '/Movies/Friends.jpg' 
     } 
   ]
 }
