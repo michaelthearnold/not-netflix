@@ -38,12 +38,13 @@ class Movie extends Component {
   //we need to tap into the mouse enter/leave to prevent the popover
   //from hiding when it is moused over, and to add a delay to the fadeout
   onMouseEnter() {
-    clearTimeout(this.fadeTimeout)
+    clearTimeout(this.fadeTimeout) //no need to hide the overlay anymore
     this.setState({showOverlay: true})
   }
   onMouseLeave() {
     //we want to add a tiny timeout before we fade out so that the popover doesn't disapear 
     //as the user mouses through the empty space between the container and the popover.
+    clearTimeout(this.fadeTimeout) //clear before we overwrite just in case
     this.fadeTimeout = setTimeout(() => this.setState({showOverlay: false}), 120)    
   }
 
