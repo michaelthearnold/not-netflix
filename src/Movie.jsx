@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from "react-dom"
 import * as Bs from 'react-bootstrap'
+import Popover from './Popover'
 
 
 //Generic movie component to be used for myList and recommendations.
@@ -35,28 +36,12 @@ class Movie extends Component {
   
 
   //we need to tap into the mouse enter/leave to prevent the popover
-  //from hiding when it is moused over, and to add a delay to the fadeout
+  //from hiding when it is moused over
   onMouseEnter() {
-    clearTimeout(this.fadeTimeout) //no need to hide the overlay anymore
     this.setState({showOverlay: true})
   }
   onMouseLeave() {
-    //we want to add a tiny timeout before we fade out so that the popover doesn't disapear 
-    //as the user mouses through the empty space between the container and the popover.
-    clearTimeout(this.fadeTimeout) //clear before we overwrite just in case
-    this.fadeTimeout = setTimeout(() => this.setState({showOverlay: false}), 120)    
-  }
-
-
-  getPopover() {
-    return (
-      <Bs.Popover id="moviePopover"
-        onMouseEnter={this.onMouseEnter.bind(this)}
-        onMouseLeave={this.onMouseLeave.bind(this)}>
-
-        {this.props.children}
-      </Bs.Popover>
-    )
+    this.setState({showOverlay: false})  
   }
 
 
@@ -76,7 +61,10 @@ class Movie extends Component {
           placement="bottom"
           target={() => ReactDOM.findDOMNode(this.refs.container)}>
           
-          {this.getPopover()}
+          <Popover onMouseLeave={this.onMouseLeave.bind(this)}
+            onMouseEnter={this.onMouseEnter.bind(this)}>
+            {this.props.children}
+          </Popover>
         </Bs.Overlay>
       </div>
     )
