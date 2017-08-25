@@ -66,7 +66,7 @@ class Movie extends Component {
       <div style={style.container} 
         onMouseEnter={this.onMouseEnter.bind(this)}
         onMouseLeave={this.onMouseLeave.bind(this)}
-        ref="target">
+        ref="container">
 
         <img src={this.props.img} 
           style={style.img}
@@ -74,7 +74,7 @@ class Movie extends Component {
 
         <Bs.Overlay show={this.state.showOverlay}
           placement="bottom"
-          target={() => ReactDOM.findDOMNode(this.refs.target)}>
+          target={() => ReactDOM.findDOMNode(this.refs.container)}>
           
           {this.getPopover()}
         </Bs.Overlay>
