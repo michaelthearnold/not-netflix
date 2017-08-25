@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from "react-dom"
 import * as Bs from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 
@@ -19,23 +20,39 @@ class Movie extends Component {
       }
     }
   }
+
+
+  getInitialState() {
+    return {
+      showOverlay: false
+    }
+  }
+
+
+  constructor(props){
+    super(props)
+    this.state = this.getInitialState()
+  }
   
 
-  //we need to tap into the mouse enter/leave on the popover
-  //to prevent it from hiding when the popover is moused over
-  onPopoverMouseEnter() {
-    this.refs.popover.show()
+  //we need to tap into the mouse enter/leave to prevent the popover
+  //from hiding when it is moused over, and to add a delay to the fadeout
+  onMouseEnter() {
+    clearTimeout(this.fadeTimeout)
+    this.setState({showOverlay: true})
   }
-  onPopoverMouseLeave() {
-    this.refs.popover.hide()
+  onMouseLeave() {
+    //we want to add a tiny timeout before we fade out so that the popover doesn't disapear 
+    //as the user mouses through the empty space between the container and the popover.
+    this.fadeTimeout = setTimeout(() => this.setState({showOverlay: false}), 120)    
   }
 
 
   getPopover() {
     return (
       <Bs.Popover id="moviePopover"
-        onMouseEnter={this.onPopoverMouseEnter.bind(this)}
-        onMouseLeave={this.onPopoverMouseLeave.bind(this)}>
+        onMouseEnter={this.onMouseEnter.bind(this)}
+        onMouseLeave={this.onMouseLeave.bind(this)}>
 
         {this.props.children}
       </Bs.Popover>
@@ -46,15 +63,21 @@ class Movie extends Component {
   render() {
     var style = this.getStyle()
     return (
-      <div style={style.container}>
-        <Bs.OverlayTrigger placement="bottom"
-          overlay={this.getPopover()}
-          ref="popover">
+      <div style={style.container} 
+        onMouseEnter={this.onMouseEnter.bind(this)}
+        onMouseLeave={this.onMouseLeave.bind(this)}
+        ref="target">
 
-          <img src={this.props.img} 
-            style={style.img}
-            alt={this.props.title}/>
-        </Bs.OverlayTrigger>
+        <img src={this.props.img} 
+          style={style.img}
+          alt={this.props.title}/>
+
+        <Bs.Overlay show={this.state.showOverlay}
+          placement="bottom"
+          target={() => ReactDOM.findDOMNode(this.refs.target)}>
+          
+          {this.getPopover()}
+        </Bs.Overlay>
       </div>
     )
   }

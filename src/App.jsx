@@ -31,7 +31,6 @@ class App extends Component {
         whiteSpace: "nowrap",
         overflow: "auto",
         overflowY: "hidden",
-        maxHeight: 233,
         width: "100%"
       },
       header: {
@@ -181,7 +180,7 @@ class App extends Component {
       <div style={style.container}>
         {/* Header */}
         <h1 style={style.header}>Not Netflix</h1>
-        <h4 style={style.subHeader}>All 6 of your favorite movies in one place.</h4>
+        <h4 style={style.subHeader}>All 6 of your favorite shows in one place.</h4>
 
         {/* MyList Movies */}
         {this.getMyListMovies()}
