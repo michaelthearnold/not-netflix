@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import * as Bs from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 import MovieData from './MovieData'
-import Movie from './Movie'
+import MovieText from './MovieText'
+import MovieList from './MovieList'
 
 
 class App extends Component {
@@ -26,23 +26,12 @@ class App extends Component {
         color: "#fdfefe",
         backgroundColor: "#141414"
       },
-      movieContainer: {
-        display: "block",
-        whiteSpace: "nowrap",
-        overflow: "auto",
-        overflowY: "hidden",
-        width: "100%"
-      },
       header: {
         fontSize: 80,
         color: "#df1718"
       },
       subHeader: {
         padding: "0px 0px 20px 0px"
-      },
-      movieButton: {
-        width: "100%",
-        borderRadius: "0px 0px 4px 4px"
       }
     }
   }
@@ -71,7 +60,7 @@ class App extends Component {
   }
 
 
-  moveBetweenLists(movie, sourceProp, destProp) {
+  moveBetweenLists(sourceProp, destProp, movie) {
     //duplicate current state to prevent tampering with it
     var source = this.state[sourceProp].slice()
     var dest = this.state[destProp].slice()
@@ -91,95 +80,6 @@ class App extends Component {
   }
 
 
-  getMyListMovies() {
-    var style = this.getStyle()
-
-    //don't display anything if there's no movies in myList
-    if(this.state.myList.length <= 0)
-      return null
-
-    //generate list of movies to be displayed
-    var movies = this.state.myList.map(movie => {
-      return (
-        <Movie title={movie.title}
-          img={movie.img}
-          key={movie.id}>
-
-          {/* child to be displayed in popover on hover */}
-          <Bs.Button bsStyle={"danger"}
-            style={style.movieButton}
-            onClick={this.moveBetweenLists.bind(this, movie, "myList", "recommendations")}>
-
-            Remove
-          </Bs.Button>
-        </Movie>
-      )
-    })
-
-    return (
-      <div>
-        <h1>My List</h1>
-        <div style={style.movieContainer}>
-          {movies}
-        </div>
-      </div>
-    )
-  }
-
-
-  getRecommendedMovies() {
-    var style = this.getStyle()
-
-    //don't display anything if there's no movies in recommendations
-    if(this.state.recommendations.length <= 0)
-      return null
-
-    var movies = this.state.recommendations.map(movie => {
-      return (
-        <Movie title={movie.title}
-          img={movie.img}
-          key={movie.id}>
-
-          {/* child to be displayed in popover on hover */}
-          <Bs.Button bsStyle={"success"}
-            style={style.movieButton}
-            onClick={this.moveBetweenLists.bind(this, movie, "recommendations", "myList")}>
-
-            Add to List
-          </Bs.Button>
-        </Movie>
-      )
-    })
-
-    return (
-       <div>
-        <h1>Recommendations</h1>
-        <div style={style.movieContainer}>
-          {movies}
-        </div>
-      </div>
-    )
-  }
-
-
-  getMyListText() {
-    //don't display anything if mylist is empty
-    if(this.state.myList.length <= 0)
-      return null
-
-    //concatinate titles separated by commas
-    var text = this.state.myList.map(movie => movie.title)
-    text = text.join(", ")
-
-    return (
-      <div>
-        <h1>My List</h1>
-        <h4>{text}</h4>
-      </div>
-    )
-  }
-
-
   render() {
     var style = this.getStyle()
     return (
@@ -188,14 +88,20 @@ class App extends Component {
         <h1 style={style.header}>Not Netflix</h1>
         <h4 style={style.subHeader}>All 6 of your favorite shows in one place.</h4>
 
-        {/* MyList Movies */}
-        {this.getMyListMovies()}
+        <MovieList header={"My List"}
+          movies={this.state.myList}
+          buttonStyle={"danger"}
+          buttonText={"Remove"}
+          onClick={this.moveBetweenLists.bind(this, "myList", "recommendations")}/>
 
-        {/* Recommendation Movies */}
-        {this.getRecommendedMovies()}
+        <MovieList header={"Recommendations"}
+          movies={this.state.recommendations}
+          buttonStyle={"success"}
+          buttonText={"Add To List"}
+          onClick={this.moveBetweenLists.bind(this, "recommendations", "myList")}/>
 
-        {/* MyList text */}
-        {this.getMyListText()}
+        <MovieText header={"My List"}
+          movies={this.state.myList}/>
       </div>
     )
   }
